@@ -7,7 +7,8 @@ import json
 
 def read_config_file():
     cfg = ConfigParser()
-    cfg.read('config.ini')
+    cfg.read(['config.ini',
+              '/config/config.ini'])
 
     return cfg
 
