@@ -33,11 +33,22 @@ def main():
     global auto_delete
     auto_delete = config.getboolean('paperless', 'AUTO_DELETE')
 
+    if not auto_delete:
+        removal_tag = config.get('paperless', 'REMOVAL_TAG')
+        
+        global removal_tag_id
+        removal_tag_id = get_removal_tag_id(removal_tag)
+
     lcm_documents = get_lcm_documents()
 
     for document in lcm_documents:
         check_document(document)
 
+
+def get_removal_tag_id(removal_tag):
+    response = api_request(f"tags/?name__iexact={removal_tag}")
+
+    return response['results'][0]['id']
 
 def check_document(document):
     print(document['title'])
@@ -115,7 +126,7 @@ def add_removal_tag_or_delete(document_id):
         print("\t**Document REMOVED**")
     else:
         document = api_request(f"documents/{document_id}/", 'get')
-        document['tags'].append(6)
+        document['tags'].append(removal_tag_id)
 
         body = document
         api_request(f"documents/{document_id}/", 'put', json.dumps(document))
