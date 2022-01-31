@@ -100,13 +100,19 @@ def api_request(url, method='get', body=''):
         headers = {'Content-type': 'application/json'}
         response = requests.put(host + '/api/' + url,
                                 auth=auth, data=body, headers=headers)
+    if method == 'delete':
+        response = requests.delete(host + '/api/' + url, auth=auth)
 
-    return response.json()
+    try:
+        return response.json()
+    except json.JSONDecodeError:
+        pass
 
 
 def add_removal_tag_or_delete(document_id):
     if auto_delete:
-        pass
+        api_request(f"documents/{document_id}/", 'delete')
+        print("\t**Document REMOVED**")
     else:
         document = api_request(f"documents/{document_id}/", 'get')
         document['tags'].append(6)
