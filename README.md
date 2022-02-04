@@ -32,7 +32,7 @@ LCM_PREFIX=<your tag prefix>
 ```
 NOTE: `REMOVAL_TAG` has to exist. Won't be created.  
  
-And then either deploy directly the script or use the provided [docker image](https://hub.docker.com/repository/docker/iverona/paperless_lcm). Then, setup a crontab rule to run it at the desired frequency. 
+And then either deploy directly the script or use the provided [docker image](https://hub.docker.com/r/iverona/paperless_lcm). Then, setup a crontab rule to run it at the desired frequency. 
   
 The script will look for config.ini either at the same folder or inside /config/ if running as a container. For example, run it as:
 
